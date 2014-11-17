@@ -4,9 +4,9 @@
 
 var https = require('https');
 var http = require('http');
-var STARTING = '1';
-var DEPLOYED = '2';
-var FAILED = '3';
+var STARTING = '3';
+var DEPLOYED = '1';
+var FAILED = '2';
 var settings = require('./settings.json');
 
 var currentTimestamp = new Date().getTime();
