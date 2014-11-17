@@ -1,0 +1,4 @@
+{
+    "device": "",
+    "slackUrl": "https://SITE.slack.com/api/channels.history?token=TOKEN&channel=CHANNEL&count=10"
+}

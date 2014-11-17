@@ -7,6 +7,7 @@ var http = require('http');
 var STARTING = '1';
 var DEPLOYED = '2';
 var FAILED = '3';
+var settings = require('./settings.json');
 
 var currentTimestamp = new Date().getTime();
 // start listening to slack api
@@ -17,7 +18,8 @@ setInterval(listenToSlack, 10000); // 10 second intervals
 // Call slack api get the last 10 messages from channel #releases
 function listenToSlack() {
 
-    var url = "https://gannettdigital.slack.com/api/channels.history?token=xoxs-2160115660-2588000371-2588000405-589497a63b&channel=C02LTS6AV&count=10";
+    var url = settings.slackUrl;
+
 
     var req = https.request(url, handleSlackResponse);
 
@@ -94,12 +96,12 @@ function botsOnly(element) {
 //
 function notifyButton(arg) {
 
-    // https://api.spark.io/v1/devices/53ff6f066667574825482367/ezbutton
+
     var options = {
 
         hostname: "api.spark.io",
         port: 443,
-        path: "/v1/devices/53ff6f066667574825482367/ezbutton",
+        path: "/v1/devices/" + settings.device,
         method: "POST",
         headers: {
             "Authorization": "Bearer 1c4524d0571ec33e5729f1fba45b30d28de2f758",
