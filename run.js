@@ -59,11 +59,11 @@ function parseSlackMessages(messages) {
     console.log(newMessages);
     for (var i = newMessages.length - 1; i >= 0; i--)
     {
-        if (newMessages[i].text.indexOf("Automated Release to Prod started for") >= 0)
+        if (newMessages[i].text.indexOf("Automated Release Requested for: PROD") >= 0)
         {
             notifyButton(STARTING);
 
-        } else if (newMessages[i].text.indexOf("Automated Release to Prod succeeded") >= 0) {
+        } else if (newMessages[i].text.indexOf("Automated Release Completed: PROD") >= 0) {
 
             notifyButton(DEPLOYED);
 
