@@ -42,11 +42,10 @@ function handleSlackResponse(res) {
     });
     res.on('end', function () {
         var slackMessage = JSON.parse(data);
-        console.log(data);
         if (slackMessage.ok && slackMessage.messages && slackMessage.messages.length > 0) {
             parseSlackMessages(slackMessage.messages);
         } else {
-            console.log("Missing messages");
+            console.log("Error: Missing messages");
             console.log(data);
         }
     });
@@ -112,7 +111,6 @@ function notifyButton(arg) {
     try {
 
         var req = https.request(options, notifyResponse);
-        console.log("params=" + arg);
         req.write("params=" + arg);
         req.end();
     } catch (e) {
