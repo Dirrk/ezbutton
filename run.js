@@ -9,7 +9,7 @@ var DEPLOYED = '1';
 var FAILED = '2';
 var settings = require('./settings.json');
 
-var currentTimestamp = new Date().getTime();
+var currentTimestamp = 0;
 // start listening to slack api
 setInterval(listenToSlack, 10000); // 10 second intervals
 //notifyButton('4');
@@ -54,21 +54,25 @@ function handleSlackResponse(res) {
 function parseSlackMessages(messages) {
 
     var newMessages = messages.filter(isNewMessage).filter(botsOnly);
-    currentTimestamp = (new Date()).getTime();
-    console.log(newMessages);
+
+    // console.log(newMessages);
     for (var i = newMessages.length - 1; i >= 0; i--)
     {
+        currentTimestamp = parseFloat(newMessages[i].ts);
         if (newMessages[i].text.indexOf("Automated Release Requested for: PROD") >= 0)
         {
             notifyButton(STARTING);
+            return;
 
         } else if (newMessages[i].text.indexOf("Automated Release Completed: PROD") >= 0) {
 
             notifyButton(DEPLOYED);
+            return;
 
         } else if (newMessages[i].text.indexOf("Automated Release to Prod failed") >= 0) {
 
             notifyButton(FAILED);
+            return;
         } else {
             console.log("Message not important: " + newMessages[i].text);
         }
@@ -79,7 +83,7 @@ function parseSlackMessages(messages) {
 function isNewMessage(element) {
 
     try {
-        return (parseFloat(element.ts) > (currentTimestamp / 1000));
+        return (parseFloat(element.ts) > currentTimestamp);
     } catch (e) {
         return false;
         console.error(e);
