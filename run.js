@@ -7,7 +7,25 @@ var http = require('http');
 var STARTING = '3';
 var DEPLOYED = '1';
 var FAILED = '2';
-var settings = require('./settings.json');
+var settings;
+if (process.argv.length > 2) {
+    try {
+        settings = require(process.argv.length[3]);
+    } catch (e) {
+        try {
+            settings = require('./settings.json');
+        } catch (e) {
+            console.log(e);
+        }
+    }
+} else {
+    try {
+        settings = require('./settings.json');
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 
 var currentTimestamp = 0;
 // start listening to slack api
@@ -43,7 +61,11 @@ function handleSlackResponse(res) {
     res.on('end', function () {
         var slackMessage = JSON.parse(data);
         if (slackMessage.ok && slackMessage.messages && slackMessage.messages.length > 0) {
-            parseSlackMessages(slackMessage.messages);
+            if (currentTimestamp <= 1) {
+                currentTimestamp = parseFloat(messages[0].ts);
+            } else {
+                parseSlackMessages(slackMessage.messages);
+            }
         } else {
             console.log("Error: Missing messages");
             console.log(data);
@@ -144,7 +166,7 @@ srv.listen(9000, '127.0.0.1', function () {
 
 function httpHandler(req, res) {
 
-    if (req.url.indexOf('/play') >= 0) {
+    if (req.url.indexOf('/xplay') >= 0) {
         playHandler(req, res);
     } else {
 
