@@ -8,9 +8,10 @@ var STARTING = '3';
 var DEPLOYED = '1';
 var FAILED = '2';
 var settings;
+
 if (process.argv.length > 2) {
     try {
-        settings = require(process.argv.length[3]);
+        settings = require(process.argv.length[2]);
     } catch (e) {
         try {
             settings = require('./settings.json');
