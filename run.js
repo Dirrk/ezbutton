@@ -82,12 +82,12 @@ function parseSlackMessages(messages) {
     for (var i = newMessages.length - 1; i >= 0; i--)
     {
         currentTimestamp = parseFloat(newMessages[i].ts);
-        if (newMessages[i].text.indexOf("Automated Release Requested for: PROD") >= 0)
+        if (newMessages[i].text.indexOf("Send Start Notification : Automated PROD Release Requested") >= 0)
         {
             notifyButton(STARTING);
             return;
 
-        } else if (newMessages[i].text.indexOf("Automated Release Completed: PROD") >= 0) {
+        } else if (newMessages[i].text.indexOf("SEND Release Complete Notification : Automated Release Completed") >= 0) {
 
             notifyButton(DEPLOYED);
             return;
